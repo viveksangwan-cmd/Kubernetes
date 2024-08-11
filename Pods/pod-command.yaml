@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-command
+  labels:
+    app: pod-command
+    learning: pod
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      command:
+        - ping
+        - 8.8.8.8
+      imagePullPolicy: IfNotPresent
+  restartPolicy: Never

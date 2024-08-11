@@ -4,6 +4,7 @@ metadata:
   name: basic-pod
   labels:
     profile: test
+    learning: pod
 spec:
   containers:
     - image: busybox
