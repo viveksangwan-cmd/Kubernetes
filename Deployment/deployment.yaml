@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-nginx
+  labels:
+    app: nginx
+    learning: deploy
+spec:
+  replicas: 4
+  selector:
+    matchExpressions:
+      - {key: app,operator: In,values: [nginx]}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+        learning: deploy
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
