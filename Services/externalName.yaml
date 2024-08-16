@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  namespace: dev
+  labels:
+    app: nginx
+    learning: external-name-service
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+        learning: external-name-service
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: dev
+  labels:
+    app: nginx
+    learning: external-name-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - port: 8080
+      targetPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-nginx-service
+  labels:
+    app: nginx
+    learning: external-name-service
+spec:
+  type: ExternalName
+  externalName: nginx-service.dev.svc.cluster.local
+
+
+  # kubectl run -it --rm test --image=nginx:alpine -- sh
+  # curl external-nginx-service:8080
