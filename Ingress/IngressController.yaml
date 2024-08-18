@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deploy
+  namespace: dev
+  labels:
+    app: webapp
+    learning: external-name-service
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      name: webapp
+      labels:
+        app: webapp
+        learning: external-name-service
+    spec:
+      containers:
+        - name: webapp
+          image: viveksangwan5791/webapp
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: regcred
